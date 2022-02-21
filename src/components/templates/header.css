@@ -1,0 +1,11 @@
+.header{
+    background:#fff;
+    padding: 0 15px;
+    overflow: hidden;
+    white-space: none;
+    box-shadow: var(--shadow);
+}
+
+.header h1{
+    font-size: 1.8em;
+}
