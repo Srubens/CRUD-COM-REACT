@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useEffect, useState} from 'react'
 import axios from 'axios'
 import Main from '../templates/Main'
 
@@ -17,13 +17,24 @@ const initialState = {
 
 export default class UserCrud extends Component{
 
-    state = { ...initialState }
+    constructor(props){
+        super(props)
+        this.state = { ...initialState }
+    }
 
-    componentWillMount(){
+    componentDidMount(){
         axios(baseURL).then(resp =>{
             this.setState({ list: resp.data })
         })
     }
+    
+    state = { ...initialState }
+
+    // componentWillMount(){
+    //     axios(baseURL).then(resp =>{
+    //         this.setState({ list: resp.data })
+    //     })
+    // }
 
     clear(){
         this.setState({ user:initialState.user })
@@ -54,25 +65,27 @@ export default class UserCrud extends Component{
 
     renderTable(){
         return(
-            <table className="table mt-4">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>E-mail</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { this.rederRows() }
-                </tbody>
-            </table>
+            <div className="table-responsive">
+                <table className="table mt-4">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { this.rederRows() }
+                    </tbody>
+                </table>
+            </div>
         )
     }
 
     rederRows(){
         return this.state.list.map(user => {
             return (
-                <tr key="user.id" >
+                <tr key={user.id} >
                     <td>{ user.name }</td>
                     <td>{ user.email }</td>
                     <td>
@@ -80,7 +93,7 @@ export default class UserCrud extends Component{
                         onClick={() => this.load(user)}>
                             <i className='fa fa-pencil'></i>
                         </button>
-                        <button title="excluir" className='btn btn-danger ml-3'
+                        <button title="excluir" className='btn btn-danger ml-3 '
                         onClick={()=> this.remove(user)}>
                             <i className='fa fa-trash'></i>
                         </button>
